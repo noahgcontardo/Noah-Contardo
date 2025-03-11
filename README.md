@@ -24,6 +24,9 @@ AWS cloud practitioner
 EC council Certified Ethical Hacker
 [https://quizlet.com/817519835/becum-hacker-flash-cards/?i=2ahdwi&x=1jqU]
 
+CySa+ exam objectives 
+[https://docs.google.com/spreadsheets/d/1IwObrk8V5vUDG6wEFuwNItCxWULm1jSTp_BnUZX2KVg/edit?usp=drivesdk]
+
 CySa+ p1
 [https://quizlet.com/885514057/study-cysa-or-collect-unemployment-flash-cards/?i=2ahdwi&x=1jqU]
 
