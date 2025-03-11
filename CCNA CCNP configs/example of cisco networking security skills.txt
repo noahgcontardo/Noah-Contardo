@@ -1,0 +1,212 @@
+#Add user & equip exec PW
+
+Privilege mode (lvl) command 
+#for specific command
+Enable secret level (lvl) password
+#assign privilege per password
+Username admin privilege 15 algorithm-type scrypt secret cisco
+Enable algorithm-type scrypt secret cisco
+#can do ? after 
+Crypto key gen rsa gen mod 2048
+
+#Encrypt all passwords
+Service password-encryption
+
+#Enhance security
+Security password min 8
+Login delay (seconds)
+Login quiet-mode access-class
+Login on-success log 
+Login on-failure log
+Login quiet-mode access-class (name)
+#Need an extended ACL with permitted hosts
+#SSH
+Lin vty 0 4
+Privilege level 15
+Login local
+Logging sync
+Transport input SSH
+Exec-timeout 12 45
+!
+config)# ip ssh time-out 90
+config)# ip ssh authentication-retries 2
+#For enable users
+config)# login block-for 120 attempts 3 within 60
+sh users 
+#(shows VTY line activity)
+
+#AAA did not add a radius server or TACACS+ server INSTEAD READ LOCAL AAA NOTES
+User [admin] secret [password]
+Aaa new-model
+Line con 0
+Login authentication default
+Ip domain-name domain.com
+Crypto key gen rsa gen mod 2048
+Aaa authentication login SSH-LOGIN local
+Line vty 0 4
+Login authentication SSH-LOGIN
+Transport input ssh
+
+#Port security
+switchport port-security
+Switchport nonegotiate 
+(disables DTP)
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+#STP loop prevention
+(config-if)#Spanning-tree portfast 
+(config-if)#Spanning-tree bpduguard enable
+
+(config)#Spanning-tree mode rapid-pvst
+(config)#Spanning-tree vlan 10 priority 0
+
+#OSPF authentication
+#STEP 1
+	 		
+#Configure a key chain on all three routers.
+ 			
+				
+#Assign a key chain name and number.
+			 		
+	
+R1(config)# key chain NetAcad
+R1(config-keychain)# key 1
+	 		 			
+				
+#Assign the authentication key string.
+			 		 	
+R1(config-keychain-key)# key-string NetSeckeystring
+	 		 			
+				
+#Configure the encryption algorithm to be used for 				authentication, use SHA256 encryption.
+			 		 	
+R1(config-keychain-key)# cryptographic-algorithm hmac-sha-256
+	 		
+			
+#Configure the GigabitEthernet interfaces 			to use OSPF authentication.
+ 			
+				
+#Use the ip ospf authentication command to assign 				the key-chain to the GigabitEthernet0/0/0 interface on R1 and R3.
+			 		
+	
+R1(config)# interface g0/0/0
+R1(config-if)# ip ospf authentication key-chain NetAcad
+R1(config)#
+# EX OUTPUT*Jan 31 00:34:49.172: %OSPF-5-ADJCHG: Process 1, Nbr 10.2.2.2 on GigabitEthernet0/0/0 from FULL to DOWN, Neighbor Down: Dead timer expired
+
+
+
+
+R3(config)# interface g0/0/0
+R3(config-if)# ip ospf authentication key-chain NetAcad
+R3(config)#
+# EX OUTPUT*Jan 31 00:32:31.998: %OSPF-5-ADJCHG: Process 1, Nbr 10.2.2.2 on GigabitEthernet0/0/0 from FULL to DOWN, Neighbor Down: Dead timer expired
+	 		 			
+				
+#Use the ip ospf authentication command to assign 				the key-chain to both GigabitEthernet interfaces on R2.
+			 		 	
+R2(config)# interface g0/0/0
+R2(config-if)# ip ospf authentication key-chain NetAcad
+R2(config)# interface g0/0/1
+R2(config-if)# ip ospf authentication key-chain NetAcad
+
+#Zone based Firewalls:
+
+#Create security zones:
+R3(config)# zone security INSIDE
+R3(config)# zone security CONFROOM
+R3(config)# zone security INTERNET
+#Create security policies class-map:
+R3(config)# class-map type inspect match-any INSIDE_PROTOCOLS
+R3(config-cmap)# match protocol tcp
+R3(config-cmap)# match protocol udp
+R3(config-cmap)# match protocol icmp
+R3(config)# class-map type inspect match-any CONFROOM_PROTOCOLS
+R3(config-cmap)# match protocol http
+R3(config-cmap)# match protocol https
+R3(config-cmap)# match protocol dns
+#Create security policies policy-map:
+R3(config)# policy-map type inspect INSIDE_TO_INTERNET
+R3(config-pmap)# class type inspect INSIDE_PROTOCOLS
+R3(config-pmap-c)# inspect
+R3(config)# policy-map type inspect CONFROOM_TO_INTERNET
+R3(config-pmap)# class type inspect CONFROOM_PROTOCOLS
+R3(config-pmap-c)# inspect
+#Create zone pairs:
+R3(config)# zone-pair security INSIDE_TO_INTERNET source INSIDE destination INTERNET
+R3(config)# zone-pair security CONFROOM_TO_INTERNET source CONFROOM destination INTERNET
+#Confirm:
+R3# show zone-pair security
+#Apply security policies:
+R3(config)# zone-pair security INSIDE_TO_INTERNET
+R3(config-sec-zone-pair)# service-policy type inspect INSIDE_TO_INTERNET
+R3(config)# zone-pair security CONFROOM_TO_INTERNET
+R3(config-sec-zone-pair)# service-policy type inspect CONFROOM_TO_INTERNET
+ASsign zones to interfaces:
+R3(config)# interface g0/0/1.33
+R3(config-if)# zone-member security CONFROOM
+R3(config)# interface g0/0/1.3
+R3(config-if)# zone-member security INSIDE
+R3(config)# interface g0/0/0
+R3(config-if)# zone-member security INTERNET
+
+#Site to Site VPN:
+#Enable IKE:
+R1(config)# crypto isakmp enable
+R3(config)# crypto isakmp enable
+#Establish ISAKMP policy:
+R1(config)# crypto isakmp policy 10
+R1(config-isakmp)# hash sha
+R1(config-isakmp)# authentication pre-share
+R1(config-isakmp)# group 24
+R1(config-isakmp)# lifetime 3600
+R1(config-isakmp)# encryption aes 256
+#Establish ISAKMP policy on other router:
+R3(config)# crypto isakmp policy 10
+R3(config-isakmp)# hash sha
+R3(config-isakmp)# authentication pre-share
+R3(config-isakmp)# group 24
+R3(config-isakmp)# lifetime 3600
+R3(config-isakmp)# encryption aes 256
+R3(config-isakmp)# end
+#Configure PSKs:
+R1(config)# crypto isakmp key cisco123 address 10.2.2.1
+R3(config)# crypto isakmp key cisco123 address 10.1.1.1
+#Configure transform sets:
+R1(config)# crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac
+R1(cfg-crypto-trans)# exit
+R3(config)# crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac
+R3(cfg-crypto-trans)# exit
+#Change association lifetime default:
+R1(config)# crypto ipsec security-association lifetime seconds 1800
+R3(config)# crypto ipsec security-association lifetime seconds 1800
+Define interesting traffic to initiate the VPN:
+R1(config)# access-list 101 permit ip 192.168.1.0 0.0.0.255 192.168.3.0 0.0.0.255
+R3(config)# access-list 101 permit ip 192.168.3.0 0.0.0.255 192.168.1.0 0.0.0.255
+#Create and apply crypto map:
+R1(config)# crypto map CMAP 10 ipsec-isakmp
+R1(config-crypto-map)# match address 101
+R1(config-crypto-map)# set peer 10.2.2.1
+R1(config-crypto-map)# set pfs group24
+R1(config-crypto-map)# set transform-set R1-R3
+R1(config-crypto-map)# set security-association lifetime seconds 900
+R1(config-crypto-map)# exit
+R3(config)# crypto map CMAP 10 ipsec-isakmp
+R3(config-crypto-map)# match address 101
+R3(config-crypto-map)# set peer 10.1.1.1
+R3(config-crypto-map)# set pfs group24
+R3(config-crypto-map)# set transform-set R1-R3
+R3(config-crypto-map)# set security-association lifetime seconds 900
+R3(config-crypto-map)# exit
+R1(config)# interface G0/0/0
+R1(config-if)# crypto map CMAP
+R3(config)# interface G0/0/0
+R3(config-if)# crypto map CMAP
+#Verify:
+R1# show crypto isakmp sa
+R1# show crypto ipsec sa
+R3# show crypto map
+R1# show crypto ipsec transform-set
+#Generate interesting traffic to establish VPN:
+Ping 192.168.3.1 source 192.168.1.1
