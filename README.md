@@ -1,9 +1,7 @@
 # Noah-Contardo
 This contains my career stuff
 
-In 2025 it is very difficult to get an entry level job in tech. This repo markets my career and documents my journey of self improvement as well as career improvement. Hopefully whoever reads this understands or even sympathizes with my perseverance and unwillingness to quit security.
-
-This repo will be a basis for me to share my coding journey that began in February 7th 2025 as well as config files ive written myself. Any use of AI in any project will be commented and I will include such mentions in my documentation and write ups on projects. 
+Please see my RSA crypto project and vending machine project to see the latest and most ambitious projects tackled without AI "career" projects typically used AI as I needed to produce
 
 Thanks for viewing my personal github repo!
 
