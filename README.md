@@ -1,9 +1,11 @@
 # Noah-Contardo
 This contains my career stuff
 
+Please see my other repo for my obsidian notes journal on my cybersecurity methodologies
+
 Please see my RSA crypto project and vending machine project to see the latest and most ambitious projects tackled without AI "career" projects typically used AI as I needed to produce
 
-Thanks for viewing my personal github repo!
+Thanks for viewing my personal github repo! <3
 
 Please reach out to me via LinkedIn!
 [https://www.linkedin.com/in/noah-contardo-479414288]
