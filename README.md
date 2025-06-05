@@ -5,7 +5,7 @@ Please see my other repo for my obsidian notes journal on my cybersecurity metho
 
 Please see my RSA crypto project and vending machine project to see the latest and most ambitious projects tackled without AI "career" projects typically used AI as I needed to produce
 
-Thanks for viewing my personal github repo! <3
+Thanks for viewing my personal github repo!
 
 Please reach out to me via LinkedIn!
 [https://www.linkedin.com/in/noah-contardo-479414288]
@@ -13,7 +13,7 @@ Please reach out to me via LinkedIn!
 My tryhackme profile:
 [https://tryhackme.com/p/hackingiseasy]
 
-FREE certification prep material compiled or authored by me with love for me and my friends:
+FREE certification prep material compiled or authored by me for me and my friends:
 
 CASP+ 005 exam objectives sheet
 [https://docs.google.com/spreadsheets/d/1oqyagwOJeM-UsKKOy7nK0qS1n11778ZrmeIDfyfUtcE/edit?usp=drivesdk]
