@@ -1,7 +1,7 @@
 # Noah-Contardo
 This contains my career stuff
 
-Please see my other repo for my obsidian notes journal on my cybersecurity methodologies
+Please see my other repos for my obsidian notes journal on my cybersecurity methodologies as well as a fun web app I made with my friend
 
 Please see my RSA crypto project and vending machine project to see the latest and most ambitious projects tackled without AI "career" projects typically used AI as I needed to produce
 
@@ -13,7 +13,7 @@ Please reach out to me via LinkedIn!
 My tryhackme profile:
 [https://tryhackme.com/p/hackingiseasy]
 
-FREE certification prep material compiled or authored by me for me and my friends:
+certification prep material compiled or authored by me for me and my friends:
 
 CASP+ 005 exam objectives sheet
 [https://docs.google.com/spreadsheets/d/1oqyagwOJeM-UsKKOy7nK0qS1n11778ZrmeIDfyfUtcE/edit?usp=drivesdk]
